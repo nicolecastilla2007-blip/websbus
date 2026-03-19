@@ -1,0 +1,150 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body{
+    width: 100%;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    overflow-y: auto;
+}
+
+
+.escena {
+    position: relative; 
+    width: 100%; 
+    height: 100vh;
+}
+
+/* Fondo */
+.fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url("../imagenes/fondo.png") no-repeat center center/cover;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Bus */
+.bus {
+    position: fixed;
+    bottom: 8%;
+    left: 320px;
+    width: 340px;
+    z-index: 20;
+    transform: scale(1) perspective(600px) rotateY(-2deg);
+}
+
+
+/* WebBus */
+.info-panel {
+    width: 100%;
+    background: linear-gradient(160deg, #0f3c6e, #1fa2ff);
+    color: white;
+    padding: 5px 20px;
+}
+
+.webbus-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.iconoWebBus {
+    width: 120px;
+}
+
+.text-container h1 {
+    font-size: 32px;
+}
+
+.subtitle {
+    font-size: 14px;
+}
+
+/* registro */
+.registro-panel{
+    position: absolute;
+    right: 80px;
+    top: 120px;
+    width: 360px;
+
+    background: rgba(0,40,80,0.65);
+    backdrop-filter: blur(12px);
+
+    padding: 35px;
+    border-radius: 15px;
+    color: white;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.registro-panel h2{
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.registro-panel label{
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.registro-panel input{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.registro-panel input:focus{
+    border-color: #1fa2ff;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #28a745, #5fd068);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.login-link {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #1fa2ff;
+    text-decoration: none;
+    font-weight: 600;
+    pointer-events: auto;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    font-size:14px;
+    opacity:0.8;
+    pointer-events: none;
+    color:white;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Paradas cercanas | WebBus</title>
+        <link rel="stylesheet" href="paradasDisponiblesUsuario.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    </head>
+    
+    <body>
+        <header class="navbar">
+            <div class="logo-area">
+                <img src="../imagenes/iconoWebBus.png">
+                <div>
+                    <h1>WebBus</h1>
+                    <p>Seguimiento del recorrido del bus en tiempo real desde una aplicación web moderna y segura</p>
+                </div>
+            </div>
+        </header>
+        
+        <main>
+            <h1>Paradas cercanas</h1>
+            <p class="subtitulo">
+                Ubica las paradas de buses cercanas a tu posición en el mapa.
+            </p>
+            
+            <div class="contenedor-paradas">
+                <div class="mapa">
+                    <div id="mapa"></div>
+                    <button id="fullscreenBtn">⛶</button>
+                </div>
+                
+                <div class="lista">
+                    <div class="buscador">
+                        <input id="direccion" type="text" placeholder="Ingresa tu dirección...">
+                        <button id="btnBuscar">Buscar</button>
+                    </div>
+                    
+                    <div class="parada">
+                        <div>
+                            <h4>Avenida Murillo y Carrera 33</h4>
+                        </div>
+                        <button>Ver</button>
+                    </div>
+                    
+                    <div class="parada">
+                        <div>
+                            <h4>Carrera 33 y Calle 45</h4>
+                        </div>
+                        <button>Ver</button>
+                    </div>
+                    
+                    <div class="parada">
+                        <div>
+                            <h4>Avenida Murillo & Carrera 34</h4>
+                        </div>
+                        <button>Ver</button>
+                    </div>
+
+                    <div class="parada">
+                        <div>
+                            <h4>Carrera 33 & Calle 47</h4>
+                        </div>
+                        <button>Ver</button>
+                    </div>
+
+                    <div class="parada">
+                        <div>
+                            <h4>Carrera 34 & Calle 43B</h4>
+                        </div>
+                        <button>Ver</button>
+                    </div>
+
+                    <div class="parada">
+                        <div>
+                            <h4>Carrera 33 & Calle 43</h4>
+                        </div>
+                        <button>Ver</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            © 2026 Web Bus - Nicole Castilla, Marlon Pertuz y Joshua Castro.
+        </footer>
+        <script src="paradasDisponiblesUsuario.js"></script>
+    </body>
+</html>

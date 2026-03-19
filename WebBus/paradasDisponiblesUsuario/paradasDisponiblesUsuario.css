@@ -1,0 +1,208 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#0b2a4a;
+    color:white;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+/* Navbar */
+.navbar{
+    display:flex;
+    align-items:center;
+    padding:15px 40px;
+    background:linear-gradient(90deg,#2a6fb3,#3f8dd0);
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-area img{
+    width:70px;
+}
+
+.logo-area h1{
+    font-size:28px;
+    margin:0;
+}
+
+.logo-area p{
+    font-size:13px;
+    margin:0;
+    opacity:0.9;
+}
+
+/* Titulos */
+main{
+    padding:40px;
+    flex:1;
+    text-align:center;
+}
+
+main h1{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.subtitulo{
+    margin-bottom:30px;
+    color:#cbd6e2;
+}
+
+/* Contenedor */
+.contenedor-paradas{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+    max-width:1100px;
+    margin:auto;
+}
+
+/* Mapa */
+.mapa{
+    height:450px;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,0.4);
+}
+
+#mapa{
+    height:100%;
+    width:100%;
+}
+
+/* Boton pantalla completa mapa */
+.mapa{
+    position:relative;
+}
+
+#fullscreenBtn{
+    position:absolute;
+    top:12px;
+    right:12px;
+    z-index:9999;
+    background:rgba(255,255,255,0.9);
+    color:#0b2a4a;
+    border:none;
+    padding:8px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    font-size:16px;
+}
+
+#fullscreenBtn.active{
+    background:rgba(0,0,0,0.6);
+    color:white;
+}
+
+.mapa.fullscreen{
+    position:fixed !important;
+    top:0 !important;
+    left:0 !important;
+    width:100vw !important;
+    height:100vh !important;
+    z-index:9998 !important;
+    border-radius:0 !important;
+    margin:0 !important;
+    box-shadow:none !important;
+}
+
+.mapa.fullscreen #mapa{
+    height:100% !important;
+}
+
+.mapa.fullscreen #fullscreenBtn{
+    right:18px;
+    top:18px;
+}
+
+/* Lista */
+.lista{
+    background:#3f8dd0;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.4);
+}
+
+/* Buscador */
+.buscador{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.buscador input{
+    flex:1;
+    padding:10px;
+    border-radius:6px;
+    border:none;
+}
+
+.buscador button{
+    background:#2a6fb3;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* Paradas */
+.parada{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:white;
+    color:black;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.parada h4{
+    margin-bottom:3px;
+}
+
+.parada p{
+    font-size:13px;
+    color:#555;
+}
+
+.parada button{
+    background:#39a845;
+    border:none;
+    color:white;
+    padding:8px 14px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.parada button:hover{
+    background:#2e8c39;
+}
+
+/* Footer */
+footer{
+    text-align:center;
+    padding:20px;
+    font-size:14px;
+    color:#cbd6e2;
+}
+
+/* Responsive */
+@media (max-width:900px){
+    .contenedor-paradas{
+        grid-template-columns:1fr;
+    }
+}
