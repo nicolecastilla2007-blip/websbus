@@ -1,0 +1,136 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Body */
+body{
+    background:#1c6dd0;
+    color:#ffffff;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+/* Fondo */
+.fondo{
+    background-image: url("../imagenes/fondorecuperarcontraseña1.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Header */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 40px;
+    border-bottom:1px solid rgba(0,0,0,0.1);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.logo img{
+    width:80px;
+}
+
+/* Contenedor */
+.container{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Tarjeta */
+.card{
+    background:rgba(0,0,0,0.35);
+    padding:40px;
+    border-radius:15px;
+    width:420px;
+    max-width:90%;
+    text-align:center;
+    box-shadow:0 20px 40px rgba(0,0,0,0.2);
+    backdrop-filter:blur(10px);
+}
+
+/* Titulo */
+.card h2{
+    margin-bottom:10px;
+    font-size:26px;
+}
+
+/* Texto */
+.card p{
+    margin-bottom:25px;
+    font-size:15px;
+}
+
+/* Input */
+.card input{
+    width:100%;
+    padding:14px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    margin-bottom:20px;
+    font-size:14px;
+}
+
+/* Boton */
+.btn{
+    width:100%;
+    padding:14px;
+    background:#28a745;
+    border:none;
+    border-radius:8px;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#23913b;
+}
+
+/* Footer */
+footer{
+    text-align:center;
+    padding:20px;
+    font-size:14px;
+    opacity:0.8;
+}
+
+/* Responsive */
+@media (max-width:600px){
+    .header{
+        padding:15px;
+    }
+    .logo span{
+        font-size:18px;
+    }
+    .card{
+        padding:25px;
+    }
+    .login-link{
+        margin-top:15px;
+        font-size:14px;
+    }
+    .login-link a{
+        color:#4da3ff;
+        text-decoration:none;
+        font-weight:bold;
+    }
+    .login-link a:hover{
+        text-decoration:underline;
+    }
+}

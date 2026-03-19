@@ -1,0 +1,203 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+body{
+    margin:0;
+    font-family:'Segoe UI', sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+.container{
+    width: 900px;
+    height: 500px;
+    background: #ffffff;
+    display: flex;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url("../imagenes/fondo.png") no-repeat center center/cover;
+    z-index: -1;
+}
+
+.bus {
+    position: fixed;
+    bottom: 8%;
+    width: 340px;
+    left: 320px;
+    z-index: 20;
+    transform: scale(1) perspective(600px) rotateY(-2deg);
+}
+
+/*fondo de webbus*/
+.info-panel {
+    width: 100%;
+    background: linear-gradient(160deg, #0f3c6e, #1fa2ff);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 5px 20px;
+}
+
+.webbus-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.iconoWebBus {
+    width: 120px;  
+    height: auto;
+}
+
+
+.text-container h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+
+.subtitle {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/*Panel derecho*/
+.login-panel{
+    position: absolute;
+    right: 80px;
+    top: 58%;
+    transform: translateY(-50%);
+    width: 360px;
+
+    background: rgba(0,40,80,0.65);
+    backdrop-filter: blur(12px);
+
+    padding: 35px;
+    border-radius: 15px;
+    color: white;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.login-panel h2{
+    font-size: 28px;
+    margin-bottom: 6px;
+    color: white;
+}
+
+.login-panel label{
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.login-panel input{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.login-panel input:focus{
+    border-color: #1fa2ff;
+}
+
+.forgot {
+    display: block;
+    text-align: right;
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: #1fa2ff;
+    text-decoration: none;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #28a745, #5fd068);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.register {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.register a {
+    color: #1fa2ff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size:14px;
+
+}
+
+.registrarse a{
+    color:#4da3ff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.registrarse a:hover{
+    text-decoration:underline;
+}
+
+.admin-login a{
+    color:#4da3ff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.admin-login a:hover{
+text-decoration:underline;
+}
+
+.escena {
+    position: relative;
+    flex:1;
+}
+
+footer{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    text-align:center;
+    padding:15px;
+    font-size:14px;
+    opacity:0.8;
+    color:white;
+}

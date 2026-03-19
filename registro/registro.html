@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WebBus | Registrarse</title>
+        <link rel="stylesheet" href="registro.css">
+    </head>
+    
+    <body>
+        <div class="escena">
+            <div class="fondo"></div>
+            <div class="info-panel">
+                <div class="webbus-header">
+                    <img src="../imagenes/iconoWebBus.png"
+                    class="iconoWebBus"
+                    alt="WebBus">
+                    <div class="text-container">
+                        <h1>WebBus</h1>
+                        <p class="subtitle">
+                            Seguimiento del recorrido del bus en tiempo real desde una aplicación web moderna y segura
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <img src="../imagenes/bus.png"
+            class="bus"
+            alt="Bus">
+            
+            <!-- Panel de registro -->
+            <div class="registro-panel">
+                <h2>Registrarse</h2>
+                <form>
+                    <label>Nombre completo</label>
+                    <input type="text" placeholder="Ingresa tu nombre completo" required>
+                    
+                    <label>Correo electrónico</label>
+                    <input type="email" placeholder="Ingresa tu correo electrónico" required>
+                    
+                    <label>Contraseña</label>
+                    <input type="password" placeholder="Ingresa tu contraseña" required>
+                    
+                    <label>Confirmar contraseña</label>
+                    <input type="password" placeholder="Confirma tu contraseña" required>
+                    
+                    <button type="submit">Registrarse</button>
+                    
+                    <p class="login-link">
+                        ¿Ya tienes una cuenta?
+                        <a href="../inicioSesion/inicioSesion.html">Iniciar sesión</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+        
+        <footer>
+            © 2026 Web Bus - Nicole Castilla, Marlon Pertuz y Joshua Castro.
+        </footer>
+        <script src = "scriptRegistro.js"></script>
+    </body>
+</html>

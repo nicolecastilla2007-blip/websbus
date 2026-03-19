@@ -1,0 +1,124 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background-image: url("../imagenes/fondoRecuperarContraseña1.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container{
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    width:100%;
+    padding-top:60px;
+}
+
+.card{
+    background: rgba(10,35,70,0.9);
+    padding:40px;
+    border-radius:12px;
+    width:420px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.card h2{
+    margin-bottom:10px;
+    color: white;
+}
+
+.card p{
+    font-size:14px;
+    margin-bottom:25px;
+    color:#c9d4e5;
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border-radius:6px;
+    border:none;
+    background:#e6e6e6;
+    font-size:14px;
+}
+
+input:focus{
+    outline:none;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    background:#39a845;
+    border:none;
+    border-radius:6px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#2e8c39;
+}
+
+footer{
+    width:100%;
+    text-align:center;
+    color:white;
+    font-size:13px;
+    position:absolute;
+    bottom:10px;
+    left:0;
+    opacity:0.9;
+}
+
+.navbar{
+    width:100%;
+    background: linear-gradient(90deg,#2a6fb3,#3f8dd0);
+    color:white;
+    padding:15px 40px;
+    display:flex;
+    align-items:center;
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.logo-area img{
+    width:130px;
+    height:auto;
+}
+
+.logo-area h1{
+    font-size:32px;
+    margin:0;
+    font-weight:bold;
+}
+
+.logo-area p{
+    font-size:14px;
+    margin:0;
+    opacity:0.9;
+}
+
+form input{
+    margin-bottom:15px;
+}
