@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
+import 'logo_webbus.dart';
+import 'ui.dart';
 
 /// Fondo con degradado, logo arriba y una tarjeta blanca con el formulario.
 class AuthScaffold extends StatelessWidget {
@@ -21,9 +23,27 @@ class AuthScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(gradient: degradadoMarca),
+        color: colorOscuro,
         child: Stack(
           children: [
+            Positioned.fill(
+              child: Image.asset('assets/imagenes/fondo.png', fit: BoxFit.cover, cacheWidth: 900),
+            ),
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      colorOscuro.withValues(alpha: 0.88),
+                      const Color(0xFF145DA0).withValues(alpha: 0.72),
+                      colorOscuro.withValues(alpha: 0.92),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             Positioned(top: -70, right: -60, child: _circulo(220, 0.07)),
             Positioned(top: 140, left: -90, child: _circulo(180, 0.05)),
             Positioned(bottom: -80, right: -40, child: _circulo(240, 0.06)),
@@ -47,25 +67,7 @@ class AuthScaffold extends StatelessWidget {
                           )
                         else
                           const SizedBox(height: 16),
-                        Center(
-                          child: Container(
-                            width: 92,
-                            height: 92,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(26),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.25),
-                                  blurRadius: 24,
-                                  offset: const Offset(0, 10),
-                                ),
-                              ],
-                            ),
-                            child: Image.asset('assets/imagenes/iconoWebBus.png', fit: BoxFit.contain),
-                          ),
-                        ),
+                        const Center(child: LogoWebBus(tam: 92)),
                         const SizedBox(height: 14),
                         const Text(
                           'WebBus',
@@ -83,7 +85,8 @@ class AuthScaffold extends StatelessWidget {
                           style: TextStyle(color: Colors.white70, fontSize: 14),
                         ),
                         const SizedBox(height: 24),
-                        Container(
+                        Aparecer(
+                          child: Container(
                           padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -116,6 +119,7 @@ class AuthScaffold extends StatelessWidget {
                               ...children,
                             ],
                           ),
+                        ),
                         ),
                         const SizedBox(height: 18),
                         const Text(

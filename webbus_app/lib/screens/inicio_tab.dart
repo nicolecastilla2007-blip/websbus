@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
+import '../widgets/logo_webbus.dart';
 import '../widgets/ui.dart';
 
 class InicioTab extends StatelessWidget {
@@ -26,6 +27,11 @@ class InicioTab extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(22, MediaQuery.of(context).padding.top + 18, 22, 30),
           decoration: const BoxDecoration(
             gradient: degradadoMarca,
+            image: DecorationImage(
+              image: AssetImage('assets/imagenes/fondo.png'),
+              fit: BoxFit.cover,
+              opacity: 0.22,
+            ),
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(32)),
           ),
           child: Column(
@@ -33,16 +39,7 @@ class InicioTab extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Image.asset('assets/imagenes/iconoWebBus.png', fit: BoxFit.contain),
-                  ),
+                  const LogoWebBus(tam: 36, sombra: false),
                   const SizedBox(width: 10),
                   const Text(
                     'WebBus',
@@ -132,49 +129,64 @@ class InicioTab extends StatelessWidget {
             mainAxisSpacing: 14,
             childAspectRatio: 1.05,
             children: [
-              for (final a in accesos)
-                Material(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(22),
-                  elevation: 0,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(22),
-                    onTap: () => a.tab != null ? onIrA(a.tab!) : mostrarMensaje(context, 'Próximamente'),
-                    child: Ink(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(22),
-                        boxShadow: _sombra,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 46,
-                            height: 46,
-                            decoration: BoxDecoration(
-                              color: a.color.withValues(alpha: 0.14),
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            child: Icon(a.icono, color: a.color),
-                          ),
-                          const Spacer(),
-                          Text(a.titulo,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w800, fontSize: 15, color: colorOscuro)),
-                          const SizedBox(height: 2),
-                          Text(a.detalle,
-                              style: const TextStyle(color: Colors.black54, fontSize: 12)),
-                        ],
-                      ),
-                    ),
-                  ),
+              for (var i = 0; i < accesos.length; i++)
+                Aparecer(
+                  indice: i,
+                  child: _tarjeta(context, accesos[i]),
                 ),
             ],
           ),
         ),
         const SizedBox(height: 24),
       ],
+    );
+  }
+
+  Widget _tarjeta(BuildContext context, _Acceso a) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(22),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(22),
+        onTap: () => a.tab != null ? onIrA(a.tab!) : mostrarMensaje(context, 'Próximamente'),
+        child: Ink(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22),
+            boxShadow: _sombra,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [a.color.withValues(alpha: 0.75), a.color],
+                  ),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: a.color.withValues(alpha: 0.35),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Icon(a.icono, color: Colors.white),
+              ),
+              const Spacer(),
+              Text(a.titulo,
+                  style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15, color: colorOscuro)),
+              const SizedBox(height: 2),
+              Text(a.detalle, style: const TextStyle(color: Colors.black54, fontSize: 12)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

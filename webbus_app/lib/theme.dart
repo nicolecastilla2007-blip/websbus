@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const colorPrimario = Color(0xFF1FA2FF);
 const colorOscuro = Color(0xFF0B2A4A);
@@ -14,9 +15,9 @@ const degradadoMarca = LinearGradient(
 
 ThemeData webBusTheme() {
   final esquema = ColorScheme.fromSeed(seedColor: colorPrimario, primary: colorAzul);
-  return ThemeData(
-    useMaterial3: true,
-    colorScheme: esquema,
+  final base = ThemeData(useMaterial3: true, colorScheme: esquema);
+  return base.copyWith(
+    textTheme: GoogleFonts.poppinsTextTheme(base.textTheme),
     scaffoldBackgroundColor: colorFondo,
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
