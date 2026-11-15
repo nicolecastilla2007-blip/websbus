@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'screens/admin_login_screen.dart';
-import 'screens/bienvenida_screen.dart';
-import 'screens/empresas_screen.dart';
+import 'screens/home_shell.dart';
 import 'screens/login_screen.dart';
-import 'screens/paradas_screen.dart';
 import 'screens/recuperar_screen.dart';
 import 'screens/registro_screen.dart';
 import 'screens/restablecer_screen.dart';
@@ -28,9 +26,7 @@ class WebBusApp extends StatelessWidget {
         '/registro': (_) => const RegistroScreen(),
         '/recuperar': (_) => const RecuperarScreen(),
         '/restablecer': (_) => const RestablecerScreen(),
-        '/bienvenida': (_) => const BienvenidaScreen(),
-        '/empresas': (_) => const EmpresasScreen(),
-        '/paradas': (_) => const ParadasScreen(),
+        '/bienvenida': (_) => const HomeShell(),
       },
     );
   }

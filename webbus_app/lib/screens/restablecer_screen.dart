@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/webbus_scaffold.dart';
+import '../widgets/auth_scaffold.dart';
+import '../widgets/ui.dart';
 
 class RestablecerScreen extends StatefulWidget {
   const RestablecerScreen({super.key});
@@ -23,41 +24,37 @@ class _RestablecerScreenState extends State<RestablecerScreen> {
 
   void _guardar() {
     if (!_formKey.currentState!.validate()) return;
-    mostrarMensaje(context, 'Contraseña actualizada correctamente. Ahora puedes iniciar sesión.');
+    mostrarMensaje(context, 'Contraseña actualizada. Ya puedes iniciar sesión.');
     Navigator.pushNamedAndRemoveUntil(context, '/login', (_) => false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return WebBusScaffold(
-      mostrarAtras: true,
-      child: Form(
-        key: _formKey,
-        child: FormCard(
-          titulo: 'Restablecer contraseña',
-          children: [
-            const Text(
-              'Ingresa tu nueva contraseña y confírmala.',
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _clave,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Nueva contraseña'),
-              validator: (v) => (v == null || v.isEmpty) ? 'Ingresa una contraseña' : null,
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: _confirmar,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Confirmar nueva contraseña'),
-              validator: (v) => v != _clave.text ? 'Las contraseñas no coinciden' : null,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(onPressed: _guardar, child: const Text('Restablecer contraseña')),
-          ],
-        ),
+    return Form(
+      key: _formKey,
+      child: AuthScaffold(
+        mostrarAtras: true,
+        titulo: 'Nueva contraseña',
+        subtitulo: 'Elige una contraseña y confírmala',
+        children: [
+          CampoTexto(
+            etiqueta: 'Nueva contraseña',
+            icono: Icons.lock_outline_rounded,
+            controller: _clave,
+            esClave: true,
+            validator: validarObligatorio,
+          ),
+          const SizedBox(height: 14),
+          CampoTexto(
+            etiqueta: 'Confirmar contraseña',
+            icono: Icons.lock_reset_rounded,
+            controller: _confirmar,
+            esClave: true,
+            validator: (v) => v != _clave.text ? 'Las contraseñas no coinciden' : null,
+          ),
+          const SizedBox(height: 22),
+          ElevatedButton(onPressed: _guardar, child: const Text('Restablecer contraseña')),
+        ],
       ),
     );
   }

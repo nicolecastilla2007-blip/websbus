@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/webbus_scaffold.dart';
+import '../widgets/auth_scaffold.dart';
+import '../widgets/ui.dart';
 
 class RecuperarScreen extends StatefulWidget {
   const RecuperarScreen({super.key});
@@ -10,6 +11,7 @@ class RecuperarScreen extends StatefulWidget {
 }
 
 class _RecuperarScreenState extends State<RecuperarScreen> {
+  final _formKey = GlobalKey<FormState>();
   final _correo = TextEditingController();
 
   @override
@@ -19,10 +21,7 @@ class _RecuperarScreenState extends State<RecuperarScreen> {
   }
 
   void _enviar() {
-    if (!_correo.text.contains('@')) {
-      mostrarMensaje(context, 'Ingresa un correo válido');
-      return;
-    }
+    if (!_formKey.currentState!.validate()) return;
     // TODO: enviar el enlace real por correo desde un backend.
     _correo.clear();
     mostrarMensaje(context, 'Si el correo existe, recibirás un enlace para restablecer tu contraseña');
@@ -31,26 +30,27 @@ class _RecuperarScreenState extends State<RecuperarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WebBusScaffold(
-      mostrarAtras: true,
-      child: FormCard(
+    return Form(
+      key: _formKey,
+      child: AuthScaffold(
+        mostrarAtras: true,
         titulo: 'Recuperar contraseña',
+        subtitulo: 'Te enviaremos un enlace para restablecerla',
         children: [
-          const Text(
-            'Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.',
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          TextField(
+          CampoTexto(
+            etiqueta: 'Correo electrónico',
+            icono: Icons.mail_outline_rounded,
             controller: _correo,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(labelText: 'Correo electrónico'),
+            teclado: TextInputType.emailAddress,
+            validator: validarCorreo,
+            onSubmitted: (_) => _enviar(),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 22),
           ElevatedButton(onPressed: _enviar, child: const Text('Enviar enlace')),
+          const SizedBox(height: 8),
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('¿Recordaste tu contraseña? Iniciar sesión'),
+            child: const Text('Volver a iniciar sesión'),
           ),
         ],
       ),

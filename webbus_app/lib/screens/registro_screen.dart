@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/webbus_scaffold.dart';
+import '../widgets/auth_scaffold.dart';
+import '../widgets/ui.dart';
 
 class RegistroScreen extends StatefulWidget {
   const RegistroScreen({super.key});
@@ -30,45 +31,55 @@ class _RegistroScreenState extends State<RegistroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WebBusScaffold(
-      mostrarAtras: true,
-      child: Form(
-        key: _formKey,
-        child: FormCard(
-          titulo: 'Registrarse',
-          children: [
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Nombre completo'),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Ingresa tu nombre' : null,
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(labelText: 'Correo electrónico'),
-              validator: (v) => (v == null || !v.contains('@')) ? 'Ingresa un correo válido' : null,
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: _clave,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Contraseña'),
-              validator: (v) => (v == null || v.isEmpty) ? 'Ingresa una contraseña' : null,
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: _confirmar,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Confirmar contraseña'),
-              validator: (v) => v != _clave.text ? 'Las contraseñas no coinciden' : null,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(onPressed: _registrar, child: const Text('Registrarse')),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('¿Ya tienes una cuenta? Iniciar sesión'),
-            ),
-          ],
-        ),
+    return Form(
+      key: _formKey,
+      child: AuthScaffold(
+        mostrarAtras: true,
+        titulo: 'Crea tu cuenta',
+        subtitulo: 'Solo te tomará un minuto',
+        children: [
+          const CampoTexto(
+            etiqueta: 'Nombre completo',
+            icono: Icons.person_outline_rounded,
+            validator: validarObligatorio,
+          ),
+          const SizedBox(height: 14),
+          const CampoTexto(
+            etiqueta: 'Correo electrónico',
+            icono: Icons.mail_outline_rounded,
+            teclado: TextInputType.emailAddress,
+            validator: validarCorreo,
+          ),
+          const SizedBox(height: 14),
+          CampoTexto(
+            etiqueta: 'Contraseña',
+            icono: Icons.lock_outline_rounded,
+            controller: _clave,
+            esClave: true,
+            validator: validarObligatorio,
+          ),
+          const SizedBox(height: 14),
+          CampoTexto(
+            etiqueta: 'Confirmar contraseña',
+            icono: Icons.lock_reset_rounded,
+            controller: _confirmar,
+            esClave: true,
+            validator: (v) => v != _clave.text ? 'Las contraseñas no coinciden' : null,
+          ),
+          const SizedBox(height: 22),
+          ElevatedButton(onPressed: _registrar, child: const Text('Registrarme')),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('¿Ya tienes cuenta?'),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Inicia sesión', style: TextStyle(fontWeight: FontWeight.w700)),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

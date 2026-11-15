@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/webbus_scaffold.dart';
+import '../theme.dart';
+import '../widgets/auth_scaffold.dart';
+import '../widgets/ui.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -30,47 +32,55 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WebBusScaffold(
-      child: Form(
-        key: _formKey,
-        child: FormCard(
-          titulo: 'Iniciar sesión',
-          children: [
-            Image.asset('assets/imagenes/bus.png', height: 90),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: _correo,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(labelText: 'Correo electrónico', hintText: 'Ingresa tu email'),
-              validator: (v) => (v == null || !v.contains('@')) ? 'Ingresa un correo válido' : null,
+    return Form(
+      key: _formKey,
+      child: AuthScaffold(
+        titulo: 'Bienvenido de nuevo',
+        subtitulo: 'Inicia sesión para continuar',
+        children: [
+          CampoTexto(
+            etiqueta: 'Correo electrónico',
+            icono: Icons.mail_outline_rounded,
+            controller: _correo,
+            teclado: TextInputType.emailAddress,
+            validator: validarCorreo,
+          ),
+          const SizedBox(height: 14),
+          CampoTexto(
+            etiqueta: 'Contraseña',
+            icono: Icons.lock_outline_rounded,
+            controller: _clave,
+            esClave: true,
+            validator: validarObligatorio,
+            onSubmitted: (_) => _entrar(),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () => Navigator.pushNamed(context, '/recuperar'),
+              child: const Text('¿Olvidaste tu contraseña?'),
             ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: _clave,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Contraseña', hintText: 'Ingresa tu contraseña'),
-              validator: (v) => (v == null || v.isEmpty) ? 'Ingresa tu contraseña' : null,
-              onFieldSubmitted: (_) => _entrar(),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () => Navigator.pushNamed(context, '/recuperar'),
-                child: const Text('¿Olvidaste tu contraseña?'),
+          ),
+          const SizedBox(height: 4),
+          ElevatedButton(onPressed: _entrar, child: const Text('Iniciar sesión')),
+          const SizedBox(height: 14),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('¿No tienes cuenta?'),
+              TextButton(
+                onPressed: () => Navigator.pushNamed(context, '/registro'),
+                child: const Text('Regístrate', style: TextStyle(fontWeight: FontWeight.w700)),
               ),
-            ),
-            ElevatedButton(onPressed: _entrar, child: const Text('Iniciar sesión')),
-            const SizedBox(height: 8),
-            TextButton(
-              onPressed: () => Navigator.pushNamed(context, '/registro'),
-              child: const Text('¿No tienes una cuenta? Registrarse'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pushNamed(context, '/admin'),
-              child: const Text('¿Eres administrador? Iniciar sesión como administrador'),
-            ),
-          ],
-        ),
+            ],
+          ),
+          const Divider(height: 8),
+          TextButton.icon(
+            onPressed: () => Navigator.pushNamed(context, '/admin'),
+            icon: const Icon(Icons.admin_panel_settings_outlined, size: 18, color: colorAzul),
+            label: const Text('Acceso administrador'),
+          ),
+        ],
       ),
     );
   }

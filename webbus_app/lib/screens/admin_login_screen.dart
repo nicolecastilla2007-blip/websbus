@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/webbus_scaffold.dart';
+import '../widgets/auth_scaffold.dart';
+import '../widgets/ui.dart';
 
 class AdminLoginScreen extends StatefulWidget {
   const AdminLoginScreen({super.key});
@@ -14,35 +15,36 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WebBusScaffold(
-      mostrarAtras: true,
-      child: Form(
-        key: _formKey,
-        child: FormCard(
-          titulo: 'Administrador',
-          children: [
-            TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(labelText: 'Correo electrónico'),
-              validator: (v) => (v == null || !v.contains('@')) ? 'Ingresa un correo válido' : null,
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Contraseña'),
-              validator: (v) => (v == null || v.isEmpty) ? 'Ingresa tu contraseña' : null,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  mostrarMensaje(context, 'Panel de administrador en construcción');
-                }
-              },
-              child: const Text('Iniciar sesión'),
-            ),
-          ],
-        ),
+    return Form(
+      key: _formKey,
+      child: AuthScaffold(
+        mostrarAtras: true,
+        titulo: 'Administrador',
+        subtitulo: 'Acceso exclusivo para el personal',
+        children: [
+          const CampoTexto(
+            etiqueta: 'Correo electrónico',
+            icono: Icons.mail_outline_rounded,
+            teclado: TextInputType.emailAddress,
+            validator: validarCorreo,
+          ),
+          const SizedBox(height: 14),
+          const CampoTexto(
+            etiqueta: 'Contraseña',
+            icono: Icons.lock_outline_rounded,
+            esClave: true,
+            validator: validarObligatorio,
+          ),
+          const SizedBox(height: 22),
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                mostrarMensaje(context, 'Panel de administrador en construcción');
+              }
+            },
+            child: const Text('Iniciar sesión'),
+          ),
+        ],
       ),
     );
   }
