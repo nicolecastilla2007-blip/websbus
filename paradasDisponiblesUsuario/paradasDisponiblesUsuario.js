@@ -80,8 +80,9 @@ const fullscreenBtn = document.getElementById('fullscreenBtn');
 // Si el navegador no soporta Fullscreen API, el fallback será usar una clase .fullscreen
 const supportsFullscreen = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled);
 
-// Ocultar botón si no hay soporte x (opcional)
+// Ocultar botón si no hay soporte de Fullscreen API
 if (!supportsFullscreen) {
+    fullscreenBtn.style.display = 'none';
 }
 
 // Función para pedir fullscreen al elemento
@@ -163,63 +164,72 @@ const inputDireccion = document.getElementById("direccion");
 const botonBuscar = document.getElementById("btnBuscar");
 
 botonBuscar.addEventListener("click", buscarDireccion);
+inputDireccion.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        buscarDireccion();
+    }
+});
+
+function consultarNominatim(direccion, ciudad){
+    const consulta = encodeURIComponent(`${direccion}, ${ciudad}, Atlantico, Colombia`);
+    return fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${consulta}&limit=1`)
+        .then(res => res.json());
+}
 
 function buscarDireccion(){
 
-    let direccion = inputDireccion.value;
+    // direccion tal como la escribio el usuario (para mostrar)
+    const direccionFormateada = inputDireccion.value.trim().replace(/\s*&\s*/g, " y ");
 
-    // convertir "y" en "&" para que OpenStreetMap entienda
-    direccion = direccion.replace(" y ", " & ");
-
-    if(direccion === ""){
+    if(direccionFormateada === ""){
         alert("Escribe una dirección");
         return;
     }
 
+    // convertir todas las " y " en " & " para que OpenStreetMap entienda
+    const direccion = direccionFormateada.replace(/ y /g, " & ");
+
     // consulta a OpenStreetMap (Nominatim)
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${direccion}, Barranquilla, Atlantico, Colombia&limit=1`)
-    .then(res => res.json())
+    consultarNominatim(direccion, "Barranquilla")
     .then(data => {
-        
         if(data.length === 0){
-            return fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${direccion}, Soledad, Atlantico, Colombia&limit=1`)
-            .then(res => res.json());
+            return consultarNominatim(direccion, "Soledad");
         }
-        
         return data;
     })
-    
     .then(data => {
         if(data.length === 0){
             alert("Dirección no encontrada en Barranquilla o Soledad");
             return;
         }
-        
+
         const lat = data[0].lat;
         const lon = data[0].lon;
-        
+
         mapa.setView([lat, lon], 17);
-        
+
         // si ya existe un marcador de búsqueda lo eliminamos
         if(marcadorBusqueda){
             mapa.removeLayer(marcadorBusqueda);
         }
-        
-        let direccionFormateada = direccion.replace("&", " y ");
 
-        marcadorBusqueda = L.marker([lat, lon]).addTo(mapa)
-        .bindPopup("📍 " + direccionFormateada + "<br>(haz clic para eliminar)")
+        const marcadorActual = L.marker([lat, lon]).addTo(mapa)
+        .bindPopup("📍 " + escaparHTML(direccionFormateada) + "<br>(haz clic para eliminar)")
         .openPopup();
+        marcadorBusqueda = marcadorActual;
 
         // permitir eliminar el marcador con clic
-        marcadorBusqueda.on("click", function(){
-            mapa.removeLayer(marcadorBusqueda);
+        marcadorActual.on("click", function(){
+            mapa.removeLayer(marcadorActual);
         });
-
-        inputDireccion.addEventListener("keypress", function(e){
-            if(e.key === "Enter"){
-                buscarDireccion();
-            }
-        });
+    })
+    .catch(() => {
+        alert("No se pudo realizar la búsqueda. Revisa tu conexión e inténtalo de nuevo.");
     });
+}
+
+function escaparHTML(texto){
+    const div = document.createElement("div");
+    div.textContent = texto;
+    return div.innerHTML;
 }
