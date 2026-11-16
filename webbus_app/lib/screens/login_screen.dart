@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../theme.dart';
+import '../services/auth_service.dart';
 import '../widgets/auth_scaffold.dart';
 import '../widgets/ui.dart';
 
@@ -15,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _correo = TextEditingController();
   final _clave = TextEditingController();
+  bool _cargando = false;
 
   @override
   void dispose() {
@@ -23,10 +25,15 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _entrar() {
-    if (_formKey.currentState!.validate()) {
-      // TODO: autenticar contra un backend real.
-      Navigator.pushReplacementNamed(context, '/bienvenida');
+  Future<void> _entrar() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _cargando = true);
+    try {
+      await AuthService.iniciarSesion(_correo.text.trim(), _clave.text);
+    } on FirebaseAuthException catch (e) {
+      if (mounted) mostrarMensaje(context, mensajeAuth(e));
+    } finally {
+      if (mounted) setState(() => _cargando = false);
     }
   }
 
@@ -62,7 +69,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           const SizedBox(height: 4),
-          ElevatedButton(onPressed: _entrar, child: const Text('Iniciar sesión')),
+          ElevatedButton(
+            onPressed: _cargando ? null : _entrar,
+            child: _cargando
+                ? const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5))
+                : const Text('Iniciar sesión'),
+          ),
           const SizedBox(height: 14),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -73,12 +85,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text('Regístrate', style: TextStyle(fontWeight: FontWeight.w700)),
               ),
             ],
-          ),
-          const Divider(height: 8),
-          TextButton.icon(
-            onPressed: () => Navigator.pushNamed(context, '/admin'),
-            icon: const Icon(Icons.admin_panel_settings_outlined, size: 18, color: colorAzul),
-            label: const Text('Acceso administrador'),
           ),
         ],
       ),

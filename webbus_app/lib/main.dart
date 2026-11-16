@@ -1,14 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'screens/admin_login_screen.dart';
-import 'screens/home_shell.dart';
-import 'screens/login_screen.dart';
+import 'firebase_options.dart';
+import 'screens/auth_gate.dart';
 import 'screens/recuperar_screen.dart';
 import 'screens/registro_screen.dart';
-import 'screens/restablecer_screen.dart';
 import 'theme.dart';
 
-void main() => runApp(const WebBusApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const WebBusApp());
+}
 
 class WebBusApp extends StatelessWidget {
   const WebBusApp({super.key});
@@ -19,14 +22,10 @@ class WebBusApp extends StatelessWidget {
       title: 'WebBus',
       debugShowCheckedModeBanner: false,
       theme: webBusTheme(),
-      initialRoute: '/login',
+      home: const AuthGate(),
       routes: {
-        '/login': (_) => const LoginScreen(),
-        '/admin': (_) => const AdminLoginScreen(),
         '/registro': (_) => const RegistroScreen(),
         '/recuperar': (_) => const RecuperarScreen(),
-        '/restablecer': (_) => const RestablecerScreen(),
-        '/bienvenida': (_) => const HomeShell(),
       },
     );
   }

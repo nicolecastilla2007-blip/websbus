@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../services/auth_service.dart';
 import '../widgets/auth_scaffold.dart';
 import '../widgets/ui.dart';
 
@@ -20,12 +22,16 @@ class _RecuperarScreenState extends State<RecuperarScreen> {
     super.dispose();
   }
 
-  void _enviar() {
+  Future<void> _enviar() async {
     if (!_formKey.currentState!.validate()) return;
-    // TODO: enviar el enlace real por correo desde un backend.
-    _correo.clear();
-    mostrarMensaje(context, 'Si el correo existe, recibirás un enlace para restablecer tu contraseña');
-    Navigator.pushNamed(context, '/restablecer');
+    try {
+      await AuthService.recuperar(_correo.text.trim());
+      if (!mounted) return;
+      mostrarMensaje(context, 'Te enviamos un enlace a tu correo para restablecer la contraseña');
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      if (mounted) mostrarMensaje(context, mensajeAuth(e));
+    }
   }
 
   @override

@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function rol() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.rol;
+    }
+
+    match /users/{uid} {
+      allow read: if request.auth != null && (request.auth.uid == uid || rol() == 'admin');
+      allow create: if request.auth != null && request.auth.uid == uid && request.resource.data.rol == 'pasajero';
+      allow update: if request.auth != null && rol() == 'admin';
+    }
+
+    match /rutas/{id} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && rol() == 'admin';
+    }
+
+    match /buses_activos/{uid} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null && request.auth.uid == uid
+        && (rol() == 'conductor' || rol() == 'admin');
+    }
+  }
+}

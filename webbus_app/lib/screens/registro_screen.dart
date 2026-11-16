@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../services/auth_service.dart';
 import '../widgets/auth_scaffold.dart';
 import '../widgets/ui.dart';
 
@@ -12,21 +14,34 @@ class RegistroScreen extends StatefulWidget {
 
 class _RegistroScreenState extends State<RegistroScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _nombre = TextEditingController();
+  final _correo = TextEditingController();
   final _clave = TextEditingController();
+  bool _cargando = false;
   final _confirmar = TextEditingController();
 
   @override
   void dispose() {
+    _nombre.dispose();
+    _correo.dispose();
     _clave.dispose();
     _confirmar.dispose();
     super.dispose();
   }
 
-  void _registrar() {
+  Future<void> _registrar() async {
     if (!_formKey.currentState!.validate()) return;
-    // TODO: guardar el usuario en un backend real.
-    mostrarMensaje(context, 'Registro exitoso');
-    Navigator.pop(context);
+    setState(() => _cargando = true);
+    try {
+      await AuthService.registrar(_nombre.text.trim(), _correo.text.trim(), _clave.text);
+      if (mounted) Navigator.popUntil(context, (r) => r.isFirst);
+    } on FirebaseAuthException catch (e) {
+      if (mounted) mostrarMensaje(context, mensajeAuth(e));
+    } catch (_) {
+      if (mounted) mostrarMensaje(context, 'No se pudo crear la cuenta. Inténtalo de nuevo.');
+    } finally {
+      if (mounted) setState(() => _cargando = false);
+    }
   }
 
   @override
@@ -38,13 +53,15 @@ class _RegistroScreenState extends State<RegistroScreen> {
         titulo: 'Crea tu cuenta',
         subtitulo: 'Solo te tomará un minuto',
         children: [
-          const CampoTexto(
+          CampoTexto(
+            controller: _nombre,
             etiqueta: 'Nombre completo',
             icono: Icons.person_outline_rounded,
             validator: validarObligatorio,
           ),
           const SizedBox(height: 14),
-          const CampoTexto(
+          CampoTexto(
+            controller: _correo,
             etiqueta: 'Correo electrónico',
             icono: Icons.mail_outline_rounded,
             teclado: TextInputType.emailAddress,
@@ -67,7 +84,12 @@ class _RegistroScreenState extends State<RegistroScreen> {
             validator: (v) => v != _clave.text ? 'Las contraseñas no coinciden' : null,
           ),
           const SizedBox(height: 22),
-          ElevatedButton(onPressed: _registrar, child: const Text('Registrarme')),
+          ElevatedButton(
+            onPressed: _cargando ? null : _registrar,
+            child: _cargando
+                ? const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5))
+                : const Text('Registrarme'),
+          ),
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

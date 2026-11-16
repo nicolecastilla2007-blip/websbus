@@ -1,13 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
+import '../models/modelos.dart';
+import '../services/auth_service.dart';
 import '../widgets/logo_webbus.dart';
 import '../widgets/ui.dart';
 
 class InicioTab extends StatelessWidget {
+  final String nombre;
   final void Function(int) onIrA;
 
-  const InicioTab({super.key, required this.onIrA});
+  const InicioTab({super.key, required this.nombre, required this.onIrA});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class InicioTab extends StatelessWidget {
       _Acceso('Ver rutas', 'Empresas y recorridos', Icons.alt_route_rounded, const Color(0xFF1FA2FF), 1),
       _Acceso('Paradas cercanas', 'Encuentra la más cerca', Icons.place_rounded, const Color(0xFF28A745), 2),
       _Acceso('Planificar viaje', 'Origen y destino', Icons.map_rounded, const Color(0xFF7C4DFF), null),
-      _Acceso('Estado del servicio', 'Novedades en vivo', Icons.speed_rounded, const Color(0xFFFF9800), null),
+      _Acceso('Buses en vivo', 'Mira dónde van', Icons.directions_bus_rounded, const Color(0xFFFF9800), 3),
       _Acceso('Historial', 'Tus viajes anteriores', Icons.history_rounded, const Color(0xFF00ACC1), null),
       _Acceso('Favoritas', 'Rutas guardadas', Icons.favorite_rounded, const Color(0xFFE91E63), null),
     ];
@@ -48,15 +52,15 @@ class InicioTab extends StatelessWidget {
                   const Spacer(),
                   IconButton(
                     tooltip: 'Cerrar sesión',
-                    onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
+                    onPressed: AuthService.salir,
                     icon: const Icon(Icons.logout_rounded, color: Colors.white),
                   ),
                 ],
               ),
               const SizedBox(height: 26),
-              const Text(
-                'Hola 👋',
-                style: TextStyle(color: Colors.white70, fontSize: 16),
+              Text(
+                nombre.isEmpty ? 'Hola 👋' : 'Hola, ${nombre.split(' ').first} 👋',
+                style: const TextStyle(color: Colors.white70, fontSize: 16),
               ),
               const SizedBox(height: 2),
               const Text(
@@ -106,9 +110,20 @@ class InicioTab extends StatelessWidget {
                   decoration: const BoxDecoration(color: colorVerde, shape: BoxShape.circle),
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
-                  child: Text('Servicio operando con normalidad',
-                      style: TextStyle(fontWeight: FontWeight.w600, color: colorOscuro)),
+                Expanded(
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: FirebaseFirestore.instance
+                        .collection('buses_activos')
+                        .where('activo', isEqualTo: true)
+                        .snapshots(),
+                    builder: (context, snap) {
+                      final n = (snap.data?.docs ?? []).map(BusActivo.desde).where((b) => b.vigente).length;
+                      return Text(
+                        n == 0 ? 'No hay buses en circulación ahora' : '$n bus(es) en circulación ahora',
+                        style: const TextStyle(fontWeight: FontWeight.w600, color: colorOscuro),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

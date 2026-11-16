@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../models/modelos.dart';
 import 'empresas_tab.dart';
+import 'en_vivo_tab.dart';
 import 'inicio_tab.dart';
 import 'paradas_tab.dart';
 
 /// Pantalla principal con barra de navegación inferior (Inicio, Rutas, Paradas).
 class HomeShell extends StatefulWidget {
-  const HomeShell({super.key});
+  final Perfil perfil;
+
+  const HomeShell({super.key, required this.perfil});
 
   @override
   State<HomeShell> createState() => _HomeShellState();
@@ -28,9 +32,10 @@ class _HomeShellState extends State<HomeShell> {
       body: IndexedStack(
         index: _indice,
         children: [
-          InicioTab(onIrA: _ir),
+          InicioTab(nombre: widget.perfil.nombre, onIrA: _ir),
           _visitadas.contains(1) ? const EmpresasTab() : const SizedBox.shrink(),
           _visitadas.contains(2) ? const ParadasTab() : const SizedBox.shrink(),
+          _visitadas.contains(3) ? const EnVivoTab() : const SizedBox.shrink(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -51,6 +56,11 @@ class _HomeShellState extends State<HomeShell> {
             icon: Icon(Icons.place_outlined),
             selectedIcon: Icon(Icons.place_rounded),
             label: 'Paradas',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.directions_bus_outlined),
+            selectedIcon: Icon(Icons.directions_bus_rounded),
+            label: 'En vivo',
           ),
         ],
       ),
